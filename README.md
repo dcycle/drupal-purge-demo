@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/dcycle/drupal-purge-demo.svg?style=svg)](https://circleci.com/gh/dcycle/drupal-purge-demo)
+
 Demo of the Drupal Purge Module
 =====
 
