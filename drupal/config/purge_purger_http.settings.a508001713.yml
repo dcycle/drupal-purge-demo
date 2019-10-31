@@ -1,0 +1,22 @@
+uuid: d6ef4bef-f420-43b7-8eca-91104ad50654
+langcode: en
+status: true
+dependencies: {  }
+id: a508001713
+name: client
+invalidationtype: tag
+hostname: client
+port: 80
+path: /clearcache.php
+request_method: GET
+scheme: http
+verify: '1'
+headers: {  }
+body: ''
+body_content_type: text/plain
+runtime_measurement: true
+timeout: !!float 1
+connect_timeout: !!float 1
+cooldown_time: !!float 0
+max_requests: 100
+http_errors: true

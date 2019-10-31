@@ -1,0 +1,10 @@
+my_custom_module.username:
+  path: '/username/{user}'
+  defaults:
+    _controller: '\Drupal\my_custom_module\Controller\MyController::get'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      user:
+        type: entity:user

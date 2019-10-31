@@ -1,0 +1,82 @@
+---
+version: '3'
+
+services:
+  mail:
+    # Dummy email client for development, see ./README.md.
+    image: mailhog/mailhog
+    ports:
+      - "8025"
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile-client
+    ports:
+      - "7003:80"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - "./client:/var/www/html/"
+    links:
+      - varnish:varnish
+      - drupal:drupal
+      - mysql:mysql
+
+  drupal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - "./drupal/custom-modules:/var/www/html/modules/custom"
+      - "./drupal/custom-themes:/var/www/html/themes/custom"
+      - "drupal-files:/var/www/html/sites/default/files:rw"
+      - "./drupal/config:/var/www/config"
+      - "./drupal/scripts:/scripts"
+      - "./do-not-commit/log-content:/var/log"
+      - "./do-not-commit/dom-captures:/var/www/html/dom-captures"
+    ports:
+      - "7001:80"
+    working_dir: /var/www/html
+
+  varnish:
+    image: varnish:6
+    environment:
+      # The virtual host is used when we want to access our site via an
+      # Nginx Proxy locally; and is required by the script
+      # ./scripts/https-deploy.sh.
+      # See https://blog.dcycle.com/blog/2018-10-27 for details.
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+    ports:
+      - "7002:80"
+    volumes:
+      - ./varnish:/etc/varnish:ro
+
+  # Database server
+  mysql:
+    image: mysql:5
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+    volumes:
+      - "mysql:/var/lib/mysql"
+      - ./mysql/cnf:/etc/mysql/conf.d
+
+# Specifying the network name makes it predictable on all environments,
+# for example when running ./scripts/migrate-all.sh, or when running browser
+# tests on a CI environment, or any other tasks which requires external
+# docker containers to connect to our network.
+# This network (purge_demo_default) has been previously created in
+# ./scripts/deploy.sh
+# See https://github.com/docker/compose/issues/3736.
+networks:
+  default:
+    external:
+      name: purge_demo_default
+
+volumes:
+  mysql:
+  drupal-files:

@@ -1,0 +1,9 @@
+purgers:
+  -
+    order_index: 2
+    instance_id: de18cf2b1c
+    plugin_id: varnish
+  -
+    order_index: 3
+    instance_id: a508001713
+    plugin_id: http

@@ -1,0 +1,25 @@
+uuid: bfa513da-89a3-4ef6-8411-c458920b503e
+langcode: en
+status: true
+dependencies: {  }
+id: de18cf2b1c
+name: varnish
+invalidationtype: tag
+hostname: varnish
+port: 80
+path: /
+request_method: BAN
+scheme: http
+verify: '1'
+headers:
+  -
+    field: purge-cache-tags
+    value: '[invalidation:expression]'
+body: null
+body_content_type: null
+runtime_measurement: true
+timeout: !!float 1
+connect_timeout: !!float 1
+cooldown_time: !!float 0
+max_requests: 100
+http_errors: true

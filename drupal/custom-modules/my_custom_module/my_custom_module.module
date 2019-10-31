@@ -1,0 +1,12 @@
+<?php
+
+use Drupal\my_custom_module\App;
+use Drupal\user\Entity\User;
+/**
+ * Changes a username.
+ */
+function change_username($uid, $username) {
+  $u = User::load($uid);
+  $u->setUsername($username);
+  $u->save();
+}
