@@ -4,13 +4,13 @@
 #
 set -e
 
-echo "Fast tests and linting"
-./scripts/test.sh
-echo "Test initial deployment"
+echo "Test deployment"
 ./scripts/deploy.sh
-echo "Test incremental deployment"
-./scripts/deploy.sh
-echo "End-to-end tests"
-./scripts/end-to-end-tests.sh
-echo "Accessibility tests"
-./scripts/a11y-tests.sh
+echo "Fetch the self-test page"
+curl -I http://0.0.0.0:7003/selftest.php
+echo "Fetch the Drupal page"
+curl -I http://0.0.0.0:7001/username/5
+echo "Fetch the Varnish page"
+curl -I http://0.0.0.0:7002/username/5
+echo "Fetch the dummy frontend page"
+curl -I http://0.0.0.0:7003/username/5
