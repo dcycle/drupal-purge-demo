@@ -8,7 +8,7 @@ This repo serves to demo the Drupal 8 [Purge](https://www.drupal.org/project/pur
 Start the project
 -----
 
-    ./scripts/deploy
+    ./scripts/deploy.sh
 
 Then visit http://0.0.0.0:7003/selftest.php
 
